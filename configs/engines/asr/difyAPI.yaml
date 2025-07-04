@@ -15,7 +15,7 @@ PARAMETERS: [
     type: "string",
     required: false,
     choices: [],
-    default: ""
+    default: "https://api.dify.ai/v1"
   },
   {
     name: "api_key",
@@ -23,7 +23,7 @@ PARAMETERS: [
     type: "string",
     required: false,
     choices: [],
-    default: ""
+    default: "app-VHxDsk3ti0raCAOqpTDnjNHX"
   },
   {
     name: "username",
@@ -31,6 +31,6 @@ PARAMETERS: [
     type: "string",
     required: false,
     choices: [],
-    default: ""
+    default: "giiift"
   }
 ]
