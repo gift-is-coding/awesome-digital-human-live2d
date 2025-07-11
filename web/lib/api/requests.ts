@@ -6,11 +6,21 @@ const SERVER_PROTOCOL = process.env.NEXT_PUBLIC_SERVER_PROTOCOL;
 const SERVER_PORT = process.env.NEXT_PUBLIC_SERVER_PORT;
 
 export function getHost(): string {
-  const SERVER_IP = process.env.NEXT_PUBLIC_SERVER_IP || globalThis.location?.hostname;
+  // 优先用当前页面的协议和 host，保证和 ngrok 域名一致，避免 mixed content
+  if (typeof window !== "undefined" && window.location) {
+    return window.location.origin;
+  }
+  // SSR fallback
+  if (typeof globalThis !== "undefined" && globalThis.location) {
+    return globalThis.location.origin;
+  }
+  // 环境变量兜底
+  const SERVER_PROTOCOL = process.env.NEXT_PUBLIC_SERVER_PROTOCOL || "https";
+  const SERVER_IP = process.env.NEXT_PUBLIC_SERVER_IP || "localhost";
+  const SERVER_PORT = process.env.NEXT_PUBLIC_SERVER_PORT || "8880";
   let host = SERVER_PROTOCOL + "://" + SERVER_IP;
-  // 非默认值端口显式添加
-  if (SERVER_PORT != "80" && SERVER_PORT != "443") {
-      host = host + ":" + SERVER_PORT;
+  if (SERVER_PORT !== "80" && SERVER_PORT !== "443") {
+    host = host + ":" + SERVER_PORT;
   }
   return host;
 }
